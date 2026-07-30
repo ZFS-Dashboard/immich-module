@@ -1,5 +1,5 @@
 wit_bindgen::generate!({
-    path: "../../rust-backend/wit",
+    path: "wit",
     world: "module",
 });
 
