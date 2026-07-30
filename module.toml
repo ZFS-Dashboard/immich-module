@@ -1,0 +1,35 @@
+﻿id = "immich"
+name = "Immich Stats"
+wasm_entrypoint = "immich.wasm"
+
+[permissions]
+network_allowlist = []
+
+[[config_schema]]
+key = "immich_url"
+label = "Immich URL"
+type = "url"
+required = true
+description = "Base URL of your Immich server, e.g. http://immich.local:2283"
+
+[[config_schema]]
+key = "immich_api_key"
+label = "Immich API Key"
+type = "secret"
+required = true
+description = "API key created in Immich under Account Settings > API Keys"
+
+[[config_schema]]
+key = "stats_to_fetch"
+label = "Statistics to collect"
+type = "multiselect"
+options = ["photos", "videos", "usage", "users"]
+default = ["photos", "videos", "usage", "users"]
+description = "Which metrics to write on every run"
+
+[[config_schema]]
+key = "schedule"
+label = "Schedule"
+type = "schedule"
+default = "15m"
+description = "Interval (e.g. 300, 15m, 2h) or cron expression (e.g. 0 0 * * * *)"

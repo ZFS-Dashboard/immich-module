@@ -1,0 +1,31 @@
+﻿name: Release Module
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Install wasm32-wasip2 target
+        run: rustup target add wasm32-wasip2
+
+      - name: Build WASM module
+        run: cargo build --release --target wasm32-wasip2
+
+      - name: Create GitHub Release & attach WASM artifact
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: "v1.0.${{ github.run_number }}"
+        run: |
+          cp target/wasm32-wasip2/release/zfs_dashboard_module_immich.wasm immich.wasm
+          gh release create "$TAG" immich.wasm --title "$TAG" --notes "Release $TAG (commit ${{ github.sha }})"
