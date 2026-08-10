@@ -57,9 +57,19 @@ impl Guest for ImmichModule {
 fn collect(config_json: &str) -> Result<u32, String> {
     let config: Config =
         serde_json::from_str(config_json).map_err(|e| format!("invalid config: {e}"))?;
-    let api_key = host::get_secret("immich_api_key").ok_or("immich_api_key secret is not set")?;
-
+        
     let base = config.immich_url.trim_end_matches('/');
+    if base.is_empty() {
+        host::log("info", "Immich URL is not configured. Skipping run.");
+        return Ok(0);
+    }
+    
+    let api_key = host::get_secret("immich_api_key").unwrap_or_default();
+    if api_key.is_empty() {
+        host::log("info", "Immich API key is not configured. Skipping run.");
+        return Ok(0);
+    }
+
     let url = format!("{base}/api/server/statistics");
     host::log("info", &format!("fetching {url}"));
 
