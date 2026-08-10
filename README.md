@@ -87,9 +87,9 @@ cargo build --release --target wasm32-wasip2
 - **Sideload (local/dev)**: `POST /api/v1/modules/sideload` with
   `{"manifest_toml": "<module.toml contents>", "wasm_base64": "<base64 of .wasm>"}`.
 - **Registry**: publish the `.wasm` as a release artifact plus your
-  `module.toml`, and add an entry (URLs + SHA-256) to a registry index JSON.
-  Users add your registry URL in the Store UI. The server verifies the
-  checksum and **never compiles source code**.
+  `module.toml`, and add an entry (URLs) to a registry index JSON.
+  Users add your registry URL in the Store UI. The server
+  **never compiles source code**.
 
 ## 6. Resource limits
 
