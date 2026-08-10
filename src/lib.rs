@@ -61,18 +61,14 @@ fn collect(config_json: &str) -> Result<u32, String> {
         serde_json::from_str(config_json).map_err(|e| format!("invalid config: {e}"))?;
         
     let base = config.immich_url.trim().trim_end_matches('/');
-    if base.is_empty() {
-        host::log("info", "Immich URL is not configured. Skipping run.");
-        return Ok(0);
+    let api_key = config.immich_api_key.trim();
+
+    if base.is_empty() || api_key.is_empty() {
+        return Err("Bitte Immich URL und API-Key eintragen, da keine Daten hinterlegt sind.".to_string());
     }
     
     if !base.starts_with("http://") && !base.starts_with("https://") {
         return Err(format!("Validation Error: Invalid URL. URL must start with http:// or https:// (got: {})", base));
-    }
-    
-    let api_key = config.immich_api_key.trim();
-    if api_key.is_empty() {
-        return Err("Validation Error: Immich API key is missing. Please configure it in the module settings.".to_string());
     }
 
     let url = format!("{base}/api/server/statistics");
