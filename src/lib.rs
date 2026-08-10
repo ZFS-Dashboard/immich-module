@@ -9,6 +9,8 @@ use zfs_dashboard::module::host_api as host;
 #[derive(Deserialize)]
 struct Config {
     immich_url: String,
+    #[serde(default)]
+    immich_api_key: String,
     #[serde(default = "default_stats")]
     stats_to_fetch: Vec<String>,
 }
@@ -64,7 +66,7 @@ fn collect(config_json: &str) -> Result<u32, String> {
         return Ok(0);
     }
     
-    let api_key = host::get_secret("immich_api_key").unwrap_or_default();
+    let api_key = config.immich_api_key;
     if api_key.is_empty() {
         host::log("info", "Immich API key is not configured. Skipping run.");
         return Ok(0);

@@ -1,4 +1,4 @@
-﻿id = "immich"
+id = "immich"
 name = "Immich Stats"
 wasm_entrypoint = "immich.wasm"
 
@@ -15,7 +15,7 @@ description = "Base URL of your Immich server, e.g. http://immich.local:2283"
 [[config_schema]]
 key = "immich_api_key"
 label = "Immich API Key"
-type = "secret"
+type = "text"
 required = true
 description = "API key created in Immich under Account Settings > API Keys"
 
