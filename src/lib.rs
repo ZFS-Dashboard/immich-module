@@ -78,7 +78,7 @@ fn collect(config_json: &str) -> Result<u32, String> {
     let url = format!("{base}/api/server/statistics");
     host::log("info", &format!("fetching {url}"));
 
-    let response = host::http_fetch(&url, &[("x-api-key".to_string(), api_key)])?;
+    let response = host::http_fetch(&url, &[("x-api-key".to_string(), api_key.to_string())])?;
     if response.status != 200 {
         return Err(format!("Immich returned HTTP {}", response.status));
     }
