@@ -24,6 +24,12 @@ interface host-api {
     /// Read a secret configured for this module. Returns none when unset.
     get-secret: func(key: string) -> option<string>;
 
+    /// Read HDD temperatures from the host via smartctl. Returns a JSON
+    /// string: [{"device":"/dev/sda","temp":35.0,"model":"..."}, ...]
+    /// Drives without a temperature report null. Only available when the
+    /// host can see the drives (e.g. HBA passed through to this VM).
+    read-disk-temps: func() -> result<string, string>;
+
     /// Structured log line. Level is one of: trace, debug, info, warn, error.
     log: func(level: string, message: string);
 }
